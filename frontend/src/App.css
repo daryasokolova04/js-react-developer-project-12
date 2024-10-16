@@ -39,3 +39,83 @@ h1 {
   width: 100%;
   margin: 5px;
 }
+
+.chat-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  margin: 30px;
+  border: 1px solid grey;
+  height: 300px;
+}
+
+.channels {
+  grid-column: 1 / 4;
+  grid-row: 1 / -1;
+  background-color: #f8f9fa;
+}
+
+.messages {
+  grid-column: 4 / 13;
+  grid-row: 1 / -1;
+}
+
+.messages-header {
+  background-color: #f8f9fa;
+  padding: 10px;
+}
+
+.messages-header p {
+  margin: 0;
+  margin-left: 5px;
+}
+
+.messages-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 3px 0;
+  margin-left: 5px;
+}
+
+.new-message-container {
+  grid-column: 4 / -1;
+  grid-row: 12 / -1;
+  margin: 8px;
+  position: relative;
+}
+
+.new-message-container input {
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  width: 100%;
+}
+
+.new-message-container button {
+  position: absolute;
+  top: 3px;
+  right: 6px;
+  border: none;
+  background-color: transparent;
+}
+
+.messages-block li {
+  margin: 0 10px;
+  padding: 4px;
+  border: none;
+}
+
+.channels li {
+  background-color: #f8f9fa;
+  border: none;
+  margin: 0 auto;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.channels h2 {
+  margin: 15px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 700;
+}

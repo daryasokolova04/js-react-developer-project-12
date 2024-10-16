@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { routes } from "../routes";
+import routes from "../routes";
 import axios from "axios";
 import { AuthContext } from "../App";
 

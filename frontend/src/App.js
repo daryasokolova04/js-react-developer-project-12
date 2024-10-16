@@ -10,6 +10,8 @@ import {
 import MainPage from "./components/MainPage";
 import LoginPage from "./components/LoginPage";
 import ErrorPage from "./components/ErrorPage";
+import { Provider } from "react-redux";
+import store from "./slices/index";
 
 export const AuthContext = createContext({});
 
@@ -45,22 +47,24 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <MainPage />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <Provider store={store}>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <MainPage />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </Provider>
   );
 }
 
