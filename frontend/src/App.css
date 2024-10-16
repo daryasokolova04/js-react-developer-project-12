@@ -34,7 +34,8 @@ h1 {
 }
 
 .login-container input,
-.login-container button {
+.login-container button,
+.login-container .error {
   width: 100%;
   margin: 5px;
 }

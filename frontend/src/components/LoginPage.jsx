@@ -1,14 +1,35 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import { routes } from "../routes";
+import axios from "axios";
+import { AuthContext } from "../App";
 
 const LoginPage = () => {
+  const { logIn } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      setError(null);
+      try {
+        const res = await axios.post(routes.loginPath(), values);
+        console.log(res.data);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("username", res.data.username);
+        logIn();
+        const path = location.state.from.pathname;
+        navigate(path === "/login" ? "/" : path);
+      } catch (e) {
+        setError("Ошибка авторизации");
+        console.log(e);
+      }
     },
   });
 
@@ -39,6 +60,7 @@ const LoginPage = () => {
               required
             />
           </div>
+          {error && <div className="error text-danger">{error}</div>}
           <div>
             <button type="submit" className="btn btn-outline-primary">
               Войти

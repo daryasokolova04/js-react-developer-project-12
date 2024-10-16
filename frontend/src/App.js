@@ -1,18 +1,66 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { createContext, useState, useContext } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import MainPage from "./components/MainPage";
 import LoginPage from "./components/LoginPage";
 import ErrorPage from "./components/ErrorPage";
 
+export const AuthContext = createContext({});
+
+const AuthProvider = ({ children }) => {
+  const [loggedIn, setLoggedIn] = useState(
+    localStorage.getItem("token") ? true : false
+  );
+
+  const logIn = () => setLoggedIn(true);
+  const logOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setLoggedIn(false);
+  };
+
+  return (
+    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+const PrivateRoute = ({ children }) => {
+  const { loggedIn } = useContext(AuthContext);
+  const location = useLocation();
+
+  return loggedIn ? (
+    children
+  ) : (
+    <Navigate to="/login" state={{ from: location }} />
+  );
+};
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <MainPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
