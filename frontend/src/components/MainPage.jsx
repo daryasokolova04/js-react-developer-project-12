@@ -6,11 +6,13 @@ import {
 } from "../slices/channelsSlice";
 import {
   fetchMessages,
+  createMessage,
   selectors as messagesSelector,
 } from "../slices/messagesSlice";
 import Channels from "./channels";
 import Messages from "./messages";
 import MessageForm from "./messageForm";
+import socket from "../socket";
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -18,6 +20,14 @@ const MainPage = () => {
   useEffect(() => {
     dispatch(fetchChannels());
     dispatch(fetchMessages());
+
+    socket.on("newMessage", (message) => {
+      dispatch(createMessage.fulfilled(message));
+    });
+
+    return () => {
+      socket.off("newMessage");
+    };
   }, [dispatch]);
 
   const channels = useSelector(channelsSelector.selectAll);

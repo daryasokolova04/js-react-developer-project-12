@@ -39,8 +39,8 @@ export const removeMessage = createAsyncThunk(
 
 export const updateMessage = createAsyncThunk(
   "messages/updateMessage",
-  async (id) => {
-    const response = await axios.patch(routes.messagePath(id), id);
+  async ({ id, data }) => {
+    const response = await axios.patch(routes.messagePath(id), { data });
     console.log(response.data);
     return response.data;
   }
@@ -68,6 +68,12 @@ const messagesSlice = createSlice({
       })
       .addCase(createMessage.fulfilled, (state, action) => {
         messagesAdapter.addOne(state, action.payload);
+      })
+      .addCase(removeMessage.fulfilled, (state, action) => {
+        messagesAdapter.removeOne(state, action.payload);
+      })
+      .addCase(updateMessage.fulfilled, (state, action) => {
+        messagesAdapter.updateOne(state, action.payload);
       });
   },
 });

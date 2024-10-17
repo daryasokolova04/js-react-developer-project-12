@@ -14,7 +14,8 @@ const MessageForm = ({ channelId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (value !== "") {
-      dispatch(createMessage({ body: value, channelId, username }));
+      const data = { body: value, channelId, username };
+      dispatch(createMessage(data));
       setValue("");
     }
   };

@@ -12,6 +12,7 @@ import LoginPage from "./components/LoginPage";
 import ErrorPage from "./components/ErrorPage";
 import { Provider } from "react-redux";
 import store from "./slices/index";
+import axios from "axios";
 
 export const AuthContext = createContext({});
 
@@ -20,7 +21,13 @@ const AuthProvider = ({ children }) => {
     localStorage.getItem("token") ? true : false
   );
 
-  const logIn = () => setLoggedIn(true);
+  const logIn = () => {
+    setLoggedIn(true);
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+  };
+
   const logOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
