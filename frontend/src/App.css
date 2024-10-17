@@ -46,7 +46,6 @@ h1 {
   grid-template-rows: repeat(12, 1fr);
   margin: 30px;
   border: 1px solid grey;
-  height: 300px;
 }
 
 .channels {
@@ -81,6 +80,7 @@ h1 {
   grid-column: 4 / -1;
   grid-row: 12 / -1;
   margin: 8px;
+  margin-top: 12px;
   position: relative;
 }
 
@@ -97,6 +97,11 @@ h1 {
   right: 6px;
   border: none;
   background-color: transparent;
+}
+
+.messages-block {
+  margin-left: 15px;
+  margin-top: 15px;
 }
 
 .messages-block li {
